@@ -41,6 +41,11 @@ func (n *NPM) Rebuild() error {
 		return nil
 	}
 
+	n.Log.Info("installing node-pre-gyp")
+	if err := n.Command.Execute(n.BuildDir, n.Log.Output(), n.Log.Output(), "npm", "install","-g","node-pre-gyp", "--nodedir="+os.Getenv("NODE_HOME")); err != nil {
+		return err
+	}
+	
 	n.Log.Info("Rebuilding any native modules")
 	if err := n.Command.Execute(n.BuildDir, n.Log.Output(), n.Log.Output(), "npm", "rebuild", "--nodedir="+os.Getenv("NODE_HOME")); err != nil {
 		return err
